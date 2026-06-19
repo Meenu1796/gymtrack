@@ -1,0 +1,22 @@
+<svg width="360" height="740" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="360" height="740" fill="#F4F4F4"/>
+  <rect width="360" height="64" fill="#1B1F3B"/>
+  <text x="20" y="40" fill="#FFFFFF" font-size="16">⌂</text>
+  <text x="56" y="40" fill="#FFFFFF" font-size="18" font-weight="bold">Workout Plans</text>
+
+  <g>
+    <rect x="20" y="92" width="320" height="64" rx="10" fill="#FFFFFF" stroke="#E0E0E0"/>
+    <text x="40" y="130" font-size="16" fill="#1B1F3B" font-weight="bold">Push Day</text>
+    <text x="320" y="130" font-size="16" fill="#FF6B35" text-anchor="end">▸</text>
+  </g>
+  <g>
+    <rect x="20" y="168" width="320" height="64" rx="10" fill="#FFFFFF" stroke="#E0E0E0"/>
+    <text x="40" y="206" font-size="16" fill="#1B1F3B" font-weight="bold">Pull Day</text>
+    <text x="320" y="206" font-size="16" fill="#FF6B35" text-anchor="end">▸</text>
+  </g>
+  <g>
+    <rect x="20" y="244" width="320" height="64" rx="10" fill="#FFFFFF" stroke="#E0E0E0"/>
+    <text x="40" y="282" font-size="16" fill="#1B1F3B" font-weight="bold">Leg Day</text>
+    <text x="320" y="282" font-size="16" fill="#FF6B35" text-anchor="end">▸</text>
+  </g>
+</svg>

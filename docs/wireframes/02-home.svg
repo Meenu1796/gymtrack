@@ -1,0 +1,21 @@
+<svg width="360" height="740" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="360" height="740" fill="#F4F4F4"/>
+  <rect width="360" height="64" fill="#1B1F3B"/>
+  <text x="20" y="40" fill="#FFFFFF" font-size="20" font-weight="bold">GymTrack</text>
+
+  <rect x="20" y="92" width="320" height="100" rx="12" fill="#FFFFFF" stroke="#E0E0E0"/>
+  <circle cx="56" cy="142" r="20" fill="#1B1F3B"/>
+  <text x="20" y="120" fill="#1B1F3B" font-size="0"></text>
+  <text x="92" y="135" fill="#1B1F3B" font-size="16" font-weight="bold">Browse by Body Part</text>
+  <text x="92" y="158" fill="#666666" font-size="12">Tap a muscle to see exercises</text>
+  <text x="310" y="148" fill="#FF6B35" font-size="20">→</text>
+
+  <rect x="20" y="208" width="320" height="100" rx="12" fill="#FFFFFF" stroke="#E0E0E0"/>
+  <circle cx="56" cy="258" r="20" fill="#FF6B35"/>
+  <text x="92" y="251" fill="#1B1F3B" font-size="16" font-weight="bold">Workout Plans</text>
+  <text x="92" y="274" fill="#666666" font-size="12">Push / Pull / Leg day</text>
+  <text x="310" y="264" fill="#FF6B35" font-size="20">→</text>
+
+  <rect x="20" y="324" width="320" height="60" rx="12" fill="none" stroke="#CCCCCC" stroke-dasharray="6 4"/>
+  <text x="180" y="358" fill="#AAAAAA" font-size="12" text-anchor="middle">more dashboard cards (future)</text>
+</svg>

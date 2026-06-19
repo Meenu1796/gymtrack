@@ -1,0 +1,37 @@
+<svg width="360" height="740" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="360" height="740" fill="#F4F4F4"/>
+
+  <!-- top bar -->
+  <circle cx="36" cy="40" r="20" fill="#1B1F3B"/>
+  <text x="36" y="46" fill="#FFFFFF" font-size="16" text-anchor="middle">⌂</text>
+  <circle cx="324" cy="40" r="20" fill="#1B1F3B"/>
+  <text x="324" y="46" fill="#FFFFFF" font-size="14" text-anchor="middle">⚥</text>
+
+  <!-- simple male body silhouette, back view -->
+  <g stroke="#1B1F3B" stroke-width="2">
+    <circle cx="180" cy="110" r="27" fill="#D7C2A8"/><!-- head -->
+    <path d="M146 142 q34 -16 68 0 l8 56 q-42 -18 -84 0 z" fill="#C99B6A"/><!-- traps/shoulders -->
+    <rect x="148" y="190" width="64" height="86" rx="16" fill="#B97B4B"/><!-- back/lats, highlighted = selected -->
+    <rect x="118" y="194" width="24" height="76" rx="10" fill="#D7AE82"/><!-- left tricep -->
+    <rect x="218" y="194" width="24" height="76" rx="10" fill="#D7AE82"/><!-- right tricep -->
+    <rect x="150" y="318" width="26" height="70" rx="12" fill="#C99B6A"/><!-- left glute/hamstring -->
+    <rect x="184" y="318" width="26" height="70" rx="12" fill="#FF6B35" stroke="#1B1F3B"/><!-- right hamstring: SELECTED -->
+    <rect x="150" y="392" width="26" height="60" rx="10" fill="#D7AE82"/><!-- left calf -->
+    <rect x="184" y="392" width="26" height="60" rx="10" fill="#D7AE82"/><!-- right calf -->
+  </g>
+
+  <text x="250" y="225" font-size="12" fill="#1B1F3B">Back</text>
+  <text x="250" y="230" font-size="0"></text>
+  <text x="70" y="230" font-size="12" fill="#1B1F3B" text-anchor="end">Triceps</text>
+  <text x="250" y="360" font-size="12" fill="#FF6B35" font-weight="bold">Hamstrings ◄ selected</text>
+
+  <!-- bottom sheet -->
+  <rect x="0" y="540" width="360" height="200" fill="#FFFFFF"/>
+  <rect x="0" y="540" width="360" height="200" fill="none" stroke="#E0E0E0"/>
+  <rect x="160" y="552" width="40" height="5" rx="3" fill="#CCCCCC"/>
+  <text x="24" y="592" font-size="20" font-weight="bold" fill="#1B1F3B">Hamstrings</text>
+  <line x1="24" y1="604" x2="336" y2="604" stroke="#EEEEEE"/>
+  <text x="24" y="632" font-size="14" fill="#333333">•  Romanian Deadlift</text>
+  <text x="24" y="660" font-size="14" fill="#333333">•  Leg Curl</text>
+  <text x="24" y="688" font-size="14" fill="#333333">•  Glute-Ham Raise</text>
+</svg>

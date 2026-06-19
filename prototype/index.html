@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>GymTrack — Clickable Prototype</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="phone">
+  <div class="screen-stack">
+
+    <!-- SCREEN: Splash -->
+    <section id="screen-splash" class="screen active">
+      <div class="splash-wrap">
+        <div class="logo-badge">
+          <svg viewBox="0 0 256 256" width="96" height="96">
+            <circle cx="128" cy="128" r="124" fill="#1B1F3B" stroke="#FF6B35" stroke-width="6"/>
+            <g transform="rotate(-35 128 128)">
+              <rect x="58" y="112" width="140" height="32" rx="6" fill="#F4F4F4"/>
+              <rect x="44" y="96" width="20" height="64" rx="6" fill="#FF6B35"/>
+              <rect x="34" y="104" width="14" height="48" rx="5" fill="#FF6B35"/>
+              <rect x="192" y="96" width="20" height="64" rx="6" fill="#FF6B35"/>
+              <rect x="208" y="104" width="14" height="48" rx="5" fill="#FF6B35"/>
+            </g>
+          </svg>
+        </div>
+        <div class="splash-title">GYMTRACK</div>
+      </div>
+    </section>
+
+    <!-- SCREEN: Home -->
+    <section id="screen-home" class="screen">
+      <header class="topheader">GymTrack</header>
+      <div class="card" id="card-bodymap">
+        <div class="card-icon" style="background:#1B1F3B"></div>
+        <div class="card-text">
+          <div class="card-title">Browse by Body Part</div>
+          <div class="card-sub">Tap a muscle to see exercises</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card" id="card-plans">
+        <div class="card-icon" style="background:#FF6B35"></div>
+        <div class="card-text">
+          <div class="card-title">Workout Plans</div>
+          <div class="card-sub">Push / Pull / Leg day</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card future-card">more dashboard cards (future)</div>
+    </section>
+
+    <!-- SCREEN: Body Map -->
+    <section id="screen-bodymap" class="screen">
+      <div class="topbar">
+        <button class="icon-btn" id="btn-home-from-bodymap" title="Home">⌂</button>
+        <button class="icon-btn" id="btn-gender" title="Switch gender">⚥</button>
+      </div>
+
+      <div class="body-stage" id="body-stage">
+        <svg id="body-svg" viewBox="0 0 300 520" width="260" height="450">
+
+          <!-- FEMALE FRONT -->
+          <g class="bodyview" data-gender="female" data-view="front">
+            <circle cx="150" cy="50" r="26" fill="#FBD8C5"/>
+            <circle class="hot" data-part="shoulders" cx="108" cy="92" r="14" fill="#FFB199"/>
+            <circle class="hot" data-part="shoulders" cx="192" cy="92" r="14" fill="#FFB199"/>
+            <rect class="hot" data-part="chest" x="128" y="88" width="44" height="58" rx="14" fill="#FF8A65"/>
+            <rect class="hot" data-part="abs" x="132" y="146" width="36" height="46" rx="12" fill="#FFB199"/>
+            <rect class="hot" data-part="biceps" x="94" y="96" width="18" height="58" rx="9" fill="#FFCBB5"/>
+            <rect class="hot" data-part="biceps" x="188" y="96" width="18" height="58" rx="9" fill="#FFCBB5"/>
+            <rect class="hot" data-part="quads" x="126" y="192" width="22" height="100" rx="11" fill="#FF8A65"/>
+            <rect class="hot" data-part="quads" x="152" y="192" width="22" height="100" rx="11" fill="#FF8A65"/>
+          </g>
+
+          <!-- FEMALE BACK -->
+          <g class="bodyview" data-gender="female" data-view="back">
+            <circle cx="150" cy="50" r="26" fill="#FBD8C5"/>
+            <rect class="hot" data-part="back" x="126" y="86" width="48" height="64" rx="14" fill="#E5775A"/>
+            <rect class="hot" data-part="triceps" x="94" y="96" width="18" height="58" rx="9" fill="#FFB199"/>
+            <rect class="hot" data-part="triceps" x="188" y="96" width="18" height="58" rx="9" fill="#FFB199"/>
+            <rect class="hot" data-part="glutes" x="126" y="150" width="48" height="32" rx="14" fill="#E5775A"/>
+            <rect class="hot" data-part="hamstrings" x="126" y="182" width="22" height="70" rx="11" fill="#FF8A65"/>
+            <rect class="hot" data-part="hamstrings" x="152" y="182" width="22" height="70" rx="11" fill="#FF8A65"/>
+            <rect class="hot" data-part="calves" x="126" y="252" width="22" height="48" rx="10" fill="#FFB199"/>
+            <rect class="hot" data-part="calves" x="152" y="252" width="22" height="48" rx="10" fill="#FFB199"/>
+          </g>
+
+          <!-- MALE FRONT -->
+          <g class="bodyview" data-gender="male" data-view="front">
+            <circle cx="150" cy="48" r="27" fill="#D7C2A8"/>
+            <circle class="hot" data-part="shoulders" cx="100" cy="92" r="16" fill="#C99B6A"/>
+            <circle class="hot" data-part="shoulders" cx="200" cy="92" r="16" fill="#C99B6A"/>
+            <rect class="hot" data-part="chest" x="122" y="86" width="56" height="58" rx="10" fill="#B97B4B"/>
+            <rect class="hot" data-part="abs" x="130" y="144" width="40" height="46" rx="8" fill="#D7AE82"/>
+            <rect class="hot" data-part="biceps" x="86" y="98" width="20" height="60" rx="9" fill="#D7AE82"/>
+            <rect class="hot" data-part="biceps" x="194" y="98" width="20" height="60" rx="9" fill="#D7AE82"/>
+            <rect class="hot" data-part="quads" x="124" y="190" width="24" height="102" rx="9" fill="#B97B4B"/>
+            <rect class="hot" data-part="quads" x="152" y="190" width="24" height="102" rx="9" fill="#B97B4B"/>
+          </g>
+
+          <!-- MALE BACK -->
+          <g class="bodyview" data-gender="male" data-view="back">
+            <circle cx="150" cy="48" r="27" fill="#D7C2A8"/>
+            <rect class="hot" data-part="back" x="118" y="84" width="64" height="66" rx="10" fill="#9C6A3F"/>
+            <rect class="hot" data-part="triceps" x="86" y="98" width="20" height="60" rx="9" fill="#C99B6A"/>
+            <rect class="hot" data-part="triceps" x="194" y="98" width="20" height="60" rx="9" fill="#C99B6A"/>
+            <rect class="hot" data-part="glutes" x="120" y="150" width="60" height="34" rx="12" fill="#9C6A3F"/>
+            <rect class="hot" data-part="hamstrings" x="124" y="184" width="24" height="72" rx="9" fill="#B97B4B"/>
+            <rect class="hot" data-part="hamstrings" x="152" y="184" width="24" height="72" rx="9" fill="#B97B4B"/>
+            <rect class="hot" data-part="calves" x="124" y="256" width="24" height="48" rx="9" fill="#C99B6A"/>
+            <rect class="hot" data-part="calves" x="152" y="256" width="24" height="48" rx="9" fill="#C99B6A"/>
+          </g>
+
+        </svg>
+      </div>
+
+      <div class="rotate-hint">◄ drag to rotate ►</div>
+      <div class="part-label" id="part-label">Tap a highlighted body part</div>
+    </section>
+
+    <!-- SCREEN: Workout Plans list -->
+    <section id="screen-plans" class="screen">
+      <div class="topbar dark">
+        <button class="icon-btn light" id="btn-home-from-plans" title="Home">⌂</button>
+        <div class="topbar-title">Workout Plans</div>
+      </div>
+      <div class="list-row" data-plan="push"><span>Push Day</span><span class="chev">▸</span></div>
+      <div class="list-row" data-plan="pull"><span>Pull Day</span><span class="chev">▸</span></div>
+      <div class="list-row" data-plan="leg"><span>Leg Day</span><span class="chev">▸</span></div>
+    </section>
+
+    <!-- SCREEN: Plan detail -->
+    <section id="screen-plan-detail" class="screen">
+      <div class="topbar dark">
+        <button class="icon-btn light" id="btn-home-from-detail" title="Home">⌂</button>
+        <div class="topbar-title" id="plan-detail-title">Push Day</div>
+      </div>
+      <ul class="exercise-list" id="plan-detail-list"></ul>
+      <div class="back-link" id="btn-back-to-plans">← Back to plans</div>
+    </section>
+
+  </div>
+
+  <!-- Bottom sheet for exercise suggestions (Body Map screen) -->
+  <div class="sheet-backdrop" id="sheet-backdrop"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <h3 id="sheet-title">Part name</h3>
+    <ul class="exercise-list" id="sheet-list"></ul>
+  </div>
+</div>
+
+<script src="data/exercises.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

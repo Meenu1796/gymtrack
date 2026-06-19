@@ -1,0 +1,10 @@
+<svg width="360" height="740" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="360" height="740" fill="#1B1F3B"/>
+  <circle cx="180" cy="330" r="60" fill="#1B1F3B" stroke="#FF6B35" stroke-width="4"/>
+  <g transform="translate(180 330) rotate(-35)">
+    <rect x="-50" y="-12" width="100" height="24" rx="5" fill="#F4F4F4"/>
+    <rect x="-66" y="-22" width="14" height="44" rx="4" fill="#FF6B35"/>
+    <rect x="52" y="-22" width="14" height="44" rx="4" fill="#FF6B35"/>
+  </g>
+  <text x="180" y="430" fill="#F4F4F4" font-size="28" font-weight="bold" text-anchor="middle" letter-spacing="4">GYMTRACK</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg width="360" height="740" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <rect width="360" height="740" fill="#F4F4F4"/>
+
+  <!-- top bar -->
+  <circle cx="36" cy="40" r="20" fill="#1B1F3B"/>
+  <text x="36" y="46" fill="#FFFFFF" font-size="16" text-anchor="middle">⌂</text>
+  <circle cx="324" cy="40" r="20" fill="#1B1F3B"/>
+  <text x="324" y="46" fill="#FFFFFF" font-size="14" text-anchor="middle">⚥</text>
+
+  <!-- simple female body silhouette, front view, with labeled hotspots -->
+  <g stroke="#1B1F3B" stroke-width="2">
+    <circle cx="180" cy="110" r="26" fill="#FBD8C5"/><!-- head -->
+    <path d="M150 140 q30 -14 60 0 l10 50 q-40 -16 -80 0 z" fill="#FFB199"/><!-- shoulders -->
+    <rect x="152" y="186" width="56" height="80" rx="18" fill="#FF8A65"/><!-- chest/torso -->
+    <rect x="158" y="266" width="44" height="50" rx="14" fill="#FFB199"/><!-- abs -->
+    <rect x="118" y="190" width="22" height="70" rx="10" fill="#FFCBB5"/><!-- left bicep -->
+    <rect x="220" y="190" width="22" height="70" rx="10" fill="#FFCBB5"/><!-- right bicep -->
+    <rect x="150" y="316" width="26" height="110" rx="12" fill="#FF8A65"/><!-- left quad -->
+    <rect x="184" y="316" width="26" height="110" rx="12" fill="#FF8A65"/><!-- right quad -->
+  </g>
+
+  <!-- labels with leader lines -->
+  <text x="250" y="160" font-size="12" fill="#1B1F3B">Shoulders</text>
+  <text x="250" y="225" font-size="12" fill="#1B1F3B">Chest</text>
+  <text x="250" y="290" font-size="12" fill="#1B1F3B">Abs</text>
+  <text x="250" y="220" font-size="12" fill="#1B1F3B"></text>
+  <text x="70" y="225" font-size="12" fill="#1B1F3B" text-anchor="end">Biceps</text>
+  <text x="250" y="380" font-size="12" fill="#1B1F3B">Quads</text>
+
+  <text x="180" y="500" font-size="12" fill="#888888" text-anchor="middle">◄ drag to rotate ►</text>
+  <rect x="0" y="690" width="360" height="50" fill="#FFFFFF"/>
+  <text x="180" y="720" font-size="13" fill="#666666" text-anchor="middle">Tap a highlighted body part</text>
+</svg>

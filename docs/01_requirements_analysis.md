@@ -33,8 +33,9 @@ no tracking, no accounts). The app is explicitly designed to be extended later
 3 screens in v1:
 
 1. **Splash Screen** — logo + app name, auto-advances to Home.
-2. **Body Map Screen** — interactive 3D-ish rotating human body (male/female toggle),
-   tap a body part → see suggested exercises for it. Home button top-left.
+2. **Body Map Screen** — flat 2D muscle-map diagram with a **Front/Back switch**
+   and a **Male/Female switch**, tap a muscle region → see suggested exercises
+   for it. Home button top-left.
 3. **Home Screen** — dashboard, entry point to "Workout Plans" (Push / Pull / Leg day),
    which lead into the Body Map screen contextually.
 
@@ -54,7 +55,8 @@ Exercise Suggestion Sheet         Exercise List for that plan
 (bottom sheet/modal)
 
 Body Map Screen [home icon, top-left] → back to Home Screen
-Body Map Screen [gender icon, top-right] → toggles male/female model
+Body Map Screen [Side switch] → toggles Front ⇄ Back muscle view
+Body Map Screen [Gender switch] → toggles Female ⇄ Male diagram
 ```
 
 ## 5. Functional Requirements
@@ -74,16 +76,16 @@ Body Map Screen [gender icon, top-right] → toggles male/female model
 - FR-2.3 No home/back button needed here — this is the root screen.
 
 ### FR-3 — Body Map Screen
-- FR-3.1 Display a human body diagram, default = **female, front view**.
-- FR-3.2 A gender toggle control sits at the **top-right corner**; tapping it
-  switches the displayed body model between female ⇄ male, preserving current
-  rotation/view and currently selected body part (if any).
+- FR-3.1 Display a flat 2D muscle-map diagram, default = **female, front view**.
+- FR-3.2 A **"Side" switch** (Front/Back) and a **"Gender" switch** (Female/Male)
+  are shown below the diagram, each as a labeled toggle (label updates with the
+  current state, e.g. "Side (Front)" / "Side (Back)"). Toggling either preserves
+  the other's state.
 - FR-3.3 A home icon sits at the **top-left corner**; tapping it always navigates
-  back to the Home Screen, regardless of current rotation/gender/state.
-- FR-3.4 The body diagram supports a **drag-to-rotate / turn-over animation** so the
-  user can view front and back (and ideally intermediate side angles) of the body,
-  to access posterior muscle groups (back, hamstrings, glutes, calves) as well as
-  anterior ones (chest, abs, quads, biceps).
+  back to the Home Screen, regardless of current side/gender/selection state.
+- FR-3.4 Switching "Side" swaps between the front-view and back-view diagram, so
+  the user can see posterior muscle groups (back, triceps, hamstrings, glutes,
+  calves) as well as anterior ones (shoulders, chest, biceps, abs, quads).
 - FR-3.5 Distinct tappable regions/hotspots exist for at least: **chest, back,
   shoulders, biceps, triceps, abs/core, quads, hamstrings, glutes, calves**.
 - FR-3.6 Tapping a body part:
@@ -128,7 +130,7 @@ Body Map Screen [gender icon, top-right] → toggles male/female model
 | ID | Requirement |
 |---|---|
 | NFR-1 | Cross-platform: single React Native codebase for Android + iOS. |
-| NFR-2 | Body rotation is true 3D (continuous drag-to-orbit, not a swapped-image flipbook), target 60fps on mid-range devices. |
+| NFR-2 | Switching Side or Gender should feel instant (simple view swap, no heavy animation/loading). |
 | NFR-3 | App must work fully offline in v1 (all data bundled locally, no network calls). |
 | NFR-4 | Should be structured (navigation, data layer, components) so that v2 features (tracking, accounts, sync) can be added without a rewrite. |
 | NFR-5 | Basic accessibility: tappable hotspots should have a minimum touch target size (~44x44pt) even if the visual region is smaller. |
@@ -138,21 +140,17 @@ Body Map Screen [gender icon, top-right] → toggles male/female model
 
 - No backend/server in v1 — everything is bundled static data.
 - No user accounts, no login.
-- Body diagram is a **true 3D model**, per your decision — but built from simple
-  primitive shapes (spheres/cylinders composed into a low-poly humanoid), not a
-  photorealistic scanned/sculpted mesh. This avoids needing a 3D artist or an
-  external asset pipeline while still giving real continuous rotation (drag to
-  orbit, not a swapped front/back image).
-- Each muscle group is its own mesh (e.g. the upper arm is literally split into
-  a front-half "biceps" mesh and a back-half "triceps" mesh), so raycasting can
-  identify exactly which part was tapped at any rotation angle.
-- Build stack for the 3D model: **react-three-fiber + expo-gl** (the standard
-  React Native 3D rendering approach) in the actual app. The clickable prototype
-  uses plain three.js (browser) to validate the interaction before we touch
-  React Native — see `prototype/js/body3d.js`.
+- Body diagram is a **flat 2D vector illustration** (front view + back view,
+  each as its own static image/SVG with tappable muscle regions), not a 3D
+  model — per your latest direction, matching a standard "muscle map" UI
+  pattern used by many fitness apps. Front ⇄ back is controlled by an explicit
+  toggle switch rather than a drag/rotate gesture.
+- Build stack in the real app: **react-native-svg** with tappable `<Path>`/
+  shape elements per muscle group (front and back illustrations as two SVGs
+  per gender, or one SVG with gendered overlays) — the React Native equivalent
+  of the prototype's `prototype/js/app.js` + inline SVG approach.
 - Target React Native tooling choice (Expo vs. bare RN CLI) is a build-phase
-  decision, to be confirmed with you before implementation starts. Note: Expo
-  is the easier path for the `expo-gl`/`expo-three` 3D stack.
+  decision, to be confirmed with you before implementation starts.
 
 ## 8. Out of Scope for v1 (Future Scope)
 
@@ -171,7 +169,7 @@ so these can be added later without restructuring the app.
 ## 9. Open Questions for You (please confirm before design is finalized)
 
 1. Confirm the muscle-group list in FR-3.5/FR-4.1 is complete — anything to add/remove (e.g. forearms, traps, obliques)?
-2. ~~Confirm 2D vs 3D rotation~~ — **resolved: true 3D**, built from primitive shapes (see updated §7).
+2. ~~Confirm 2D vs 3D rotation~~ — **resolved: flat 2D muscle map with Front/Back + Gender toggle switches** (see updated §7).
 3. Confirm exercise lists in FR-4.1 are good starting suggestions, or you have specific exercises you want per body part.
-4. Any color/branding direction for the logo (e.g. specific colors, mood — bold/energetic vs. clean/minimal)?
-5. Confirm Expo vs. bare React Native CLI for the build (Expo recommended — simplifies the 3D rendering setup).
+4. Any color/branding direction for the logo (e.g. specific colors, mood — bold/energetic vs. clean/minimal)? Separately: the muscle-map highlight color is currently brand orange — confirm that's fine, or you'd prefer something else (e.g. blue).
+5. Confirm Expo vs. bare React Native CLI for the build.

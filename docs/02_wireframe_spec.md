@@ -63,17 +63,20 @@ Color tokens (from the logo, adjust freely):
 
 ```
 ┌─────────────────────────────┐
-│ [⌂]                    [⚥] │   <- home (top-left), gender toggle (top-right)
+│ [⌂]                           │   <- home, top-left
+│        Tap a highlighted      │   <- hint label, replaced by part name once selected
+│           body part           │
 │                               │
-│                               │
-│        (human body            │
-│         illustration,         │
-│         tappable regions)     │
-│                               │
-│        ◄ drag to rotate ►     │
+│        (flat 2D muscle        │
+│         map illustration,     │
+│         tappable regions,     │
+│         dark-gray muscles,    │
+│         accent when selected) │
 │                               │
 ├─────────────────────────────┤
-│  Tap a highlighted body part  │  <- hint label, replaced by part name once selected
+│   Side (Front)      Gender    │
+│      ⚪──            (Female) │
+│                       ⚪──     │
 └─────────────────────────────┘
 
   -- when a part is tapped, bottom sheet rises: --
@@ -88,11 +91,10 @@ Color tokens (from the logo, adjust freely):
 ```
 - Default state: female, front view.
 - Home icon: always returns to Home Screen.
-- Gender toggle: swaps model, keeps current rotation angle.
-- Drag horizontally on the body to orbit it in true 3D (continuous rotation,
-  not a swapped front/back image — see NFR-2).
-- Tap a region → highlight + bottom sheet with exercise list (FR-4).
-- Tap outside / swipe down on sheet → dismiss.
+- **Side switch** (bottom-left): toggles Front ⇄ Back muscle-map illustration.
+- **Gender switch** (bottom-right): toggles Female ⇄ Male illustration.
+- Tap a region → highlight in accent color + bottom sheet with exercise list (FR-4).
+- Tap outside / swipe down on sheet → dismiss and clear highlight.
 
 ### Hotspot map (front view)
 `head (non-tappable) · shoulders · chest · biceps · forearms · abs · quads`
@@ -131,11 +133,9 @@ Color tokens (from the logo, adjust freely):
 
 ## Interaction Notes
 
-- **Rotation gesture**: horizontal pan/drag orbits the 3D model continuously
-  around its vertical axis, with momentum (coasts and decelerates on release,
-  rather than snapping between fixed views).
-- **Gender toggle**: single tap icon button, instant swap (with a quick
-  crossfade), not a drag gesture — avoids accidental switches.
+- **Side / Gender switches**: standard labeled toggle switches (not icon
+  buttons, not a drag gesture) — explicit and discoverable, label text updates
+  to reflect current state.
 - **Body part tap**: hit-testing against named regions, minimum 44x44pt touch
   target even where the visual silhouette area is smaller (NFR-5).
 - **Bottom sheet**: dismissible by swipe-down, tap-outside, or re-tapping the

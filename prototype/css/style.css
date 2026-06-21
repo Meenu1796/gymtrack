@@ -124,34 +124,24 @@ body {
   align-items: center;
   justify-content: center;
   background: #fff;
-}
-
-.bodyview { display: none; }
-.bodyview.active { display: block; }
-
-.silhouette { fill: #e9e9ec; stroke: #cfd0d4; stroke-width: 1; }
-.muscle {
-  fill: #3a3d44;
-  stroke: #2a2c31;
-  stroke-width: 1;
   cursor: pointer;
-  transition: fill .15s ease;
 }
-.muscle:hover { fill: #52565f; }
-.muscle.selected { fill: var(--accent); stroke: #c44f24; }
 
-.hair-female { display: block; }
-.gender-male .hair-female { display: none; }
-
-.grp-shoulders, .grp-torso-upper, .grp-hips {
-  transform-box: fill-box;
-  transform-origin: center;
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  padding: 6px 14px;
 }
-.gender-male .grp-shoulders { transform: scaleX(1.18); }
-.gender-female .grp-shoulders { transform: scaleX(0.88); }
-.gender-male .grp-torso-upper { transform: scaleX(1.1); }
-.gender-female .grp-hips { transform: scaleX(1.12); }
-.gender-male .grp-hips { transform: scaleX(0.95); }
+.legend-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.legend-chip .dot { width: 9px; height: 9px; border-radius: 50%; }
 
 .toggle-row-group {
   display: flex;

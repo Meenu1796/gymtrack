@@ -60,70 +60,10 @@
       <div class="bodymap-label" id="part-label">Tap a highlighted body part</div>
 
       <div class="bodymap-stage">
-        <svg id="muscle-svg" class="gender-female" viewBox="0 0 240 560" width="190" height="443">
-
-          <g class="hair-female">
-            <path d="M88,16 C78,40 76,74 88,100 C93,84 95,54 102,38 C95,30 91,24 88,16 Z" fill="#555a63"/>
-          </g>
-
-          <!-- FRONT VIEW -->
-          <g id="view-front" class="bodyview active">
-            <path class="silhouette" d="M132,64 L178,86 L170,120 L166,215 L160,260 L156,298 L162,312 L168,338 L160,336 L164,348 L155,344 L158,355 L148,348 L148,358 L138,340 L140,300 L144,260 L148,216 L140,98 L168,120 L152,178 L164,210 L164,250 L156,345 L155,400 L147,468 Q162,476 156,492 Q146,498 134,492 Q128,484 130,470 L133,468 L129,400 L128,345 L130,252 L120,222 L110,252 L112,345 L111,400 L107,468 Q112,484 110,470 Q94,498 106,492 Q78,476 84,492 L93,468 L85,400 L84,345 L76,250 L76,210 L88,178 L72,120 L100,98 L92,216 L96,260 L100,300 L102,340 L92,358 L92,348 L82,355 L85,344 L76,348 L80,336 L72,338 L78,312 L84,298 L80,260 L74,215 L70,120 L62,86 L108,64 Z"/>
-            <ellipse class="silhouette" cx="120" cy="36" rx="27" ry="30"/>
-
-            <g class="grp-shoulders">
-              <ellipse class="muscle" data-part="shoulders" cx="160" cy="98" rx="19" ry="21" transform="rotate(20 160 98)"/>
-              <ellipse class="muscle" data-part="shoulders" cx="80" cy="98" rx="19" ry="21" transform="rotate(-20 80 98)"/>
-            </g>
-
-            <g class="grp-torso-upper">
-              <ellipse class="muscle" data-part="chest" cx="100" cy="130" rx="25" ry="23" transform="rotate(12 100 130)"/>
-              <ellipse class="muscle" data-part="chest" cx="140" cy="130" rx="25" ry="23" transform="rotate(-12 140 130)"/>
-            </g>
-
-            <g class="grp-abs">
-              <rect class="muscle" data-part="abs" x="103" y="155" width="14" height="20" rx="4"/>
-              <rect class="muscle" data-part="abs" x="123" y="155" width="14" height="20" rx="4"/>
-              <rect class="muscle" data-part="abs" x="103" y="179" width="14" height="20" rx="4"/>
-              <rect class="muscle" data-part="abs" x="123" y="179" width="14" height="20" rx="4"/>
-              <rect class="muscle" data-part="abs" x="103" y="203" width="14" height="20" rx="4"/>
-              <rect class="muscle" data-part="abs" x="123" y="203" width="14" height="20" rx="4"/>
-            </g>
-
-            <ellipse class="muscle" data-part="biceps" cx="156" cy="172" rx="13" ry="36" transform="rotate(8 156 172)"/>
-            <ellipse class="muscle" data-part="biceps" cx="84" cy="172" rx="13" ry="36" transform="rotate(-8 84 172)"/>
-
-            <g class="grp-hips">
-              <ellipse class="muscle" data-part="quads" cx="144" cy="295" rx="19" ry="50" transform="rotate(4 144 295)"/>
-              <ellipse class="muscle" data-part="quads" cx="96" cy="295" rx="19" ry="50" transform="rotate(-4 96 295)"/>
-            </g>
-          </g>
-
-          <!-- BACK VIEW -->
-          <g id="view-back" class="bodyview">
-            <path class="silhouette" d="M132,64 L178,86 L170,120 L166,215 L160,260 L156,298 L162,312 L168,338 L160,336 L164,348 L155,344 L158,355 L148,348 L148,358 L138,340 L140,300 L144,260 L148,216 L140,98 L168,120 L152,178 L164,210 L164,250 L156,345 L155,400 L147,468 Q162,476 156,492 Q146,498 134,492 Q128,484 130,470 L133,468 L129,400 L128,345 L130,252 L120,222 L110,252 L112,345 L111,400 L107,468 Q112,484 110,470 Q94,498 106,492 Q78,476 84,492 L93,468 L85,400 L84,345 L76,250 L76,210 L88,178 L72,120 L100,98 L92,216 L96,260 L100,300 L102,340 L92,358 L92,348 L82,355 L85,344 L76,348 L80,336 L72,338 L78,312 L84,298 L80,260 L74,215 L70,120 L62,86 L108,64 Z"/>
-            <ellipse class="silhouette" cx="120" cy="36" rx="27" ry="30"/>
-
-            <g class="grp-torso-upper">
-              <ellipse class="muscle" data-part="back" cx="100" cy="138" rx="27" ry="42" transform="rotate(10 100 138)"/>
-              <ellipse class="muscle" data-part="back" cx="140" cy="138" rx="27" ry="42" transform="rotate(-10 140 138)"/>
-            </g>
-
-            <ellipse class="muscle" data-part="triceps" cx="156" cy="172" rx="12" ry="34" transform="rotate(8 156 172)"/>
-            <ellipse class="muscle" data-part="triceps" cx="84" cy="172" rx="12" ry="34" transform="rotate(-8 84 172)"/>
-
-            <g class="grp-hips">
-              <ellipse class="muscle" data-part="glutes" cx="143" cy="222" rx="23" ry="26" transform="rotate(-6 143 222)"/>
-              <ellipse class="muscle" data-part="glutes" cx="97" cy="222" rx="23" ry="26" transform="rotate(6 97 222)"/>
-              <ellipse class="muscle" data-part="hamstrings" cx="143" cy="295" rx="19" ry="50" transform="rotate(4 143 295)"/>
-              <ellipse class="muscle" data-part="hamstrings" cx="97" cy="295" rx="19" ry="50" transform="rotate(-4 97 295)"/>
-            </g>
-
-            <ellipse class="muscle" data-part="calves" cx="139" cy="400" rx="14" ry="40" transform="rotate(-3 139 400)"/>
-            <ellipse class="muscle" data-part="calves" cx="101" cy="400" rx="14" ry="40" transform="rotate(3 101 400)"/>
-          </g>
-        </svg>
+        <canvas id="body-canvas" width="260" height="420"></canvas>
       </div>
+
+      <div class="legend-row" id="legend-row"></div>
 
       <div class="toggle-row-group">
         <div class="toggle-item">
@@ -169,7 +109,9 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="data/exercises.js"></script>
+<script src="js/body3d.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

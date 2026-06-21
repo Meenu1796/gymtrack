@@ -47,25 +47,41 @@
     showScreen("screen-plans");
   });
 
-  // ---- Body Map: flat 2D muscle map, front/back + gender toggle switches ----
+  // ---- Body Map: 3D model, front/back + gender toggle switches, per-part color ----
   const state = { side: "front", gender: "female" };
   const partLabel = document.getElementById("part-label");
-  const muscleSvg = document.getElementById("muscle-svg");
   const sideToggle = document.getElementById("toggle-side");
   const sideLabel = document.getElementById("side-label");
   const genderToggle = document.getElementById("toggle-gender");
   const genderLabel = document.getElementById("gender-label");
+  const legendRow = document.getElementById("legend-row");
+
+  const body3d = window.initBody3D(document.getElementById("body-canvas"));
+
+  const FRONT_PARTS = ["shoulders", "chest", "biceps", "abs", "quads"];
+  const BACK_PARTS = ["back", "triceps", "glutes", "hamstrings", "calves"];
+  function toHex(num) { return "#" + num.toString(16).padStart(6, "0"); }
+  function renderLegend() {
+    const parts = state.side === "front" ? FRONT_PARTS : BACK_PARTS;
+    legendRow.innerHTML = "";
+    parts.forEach((part) => {
+      const chip = document.createElement("span");
+      chip.className = "legend-chip";
+      chip.innerHTML = `<span class="dot" style="background:${toHex(window.PART_COLORS[part])}"></span>${part.charAt(0).toUpperCase() + part.slice(1)}`;
+      legendRow.appendChild(chip);
+    });
+  }
 
   function renderBody() {
-    document.getElementById("view-front").classList.toggle("active", state.side === "front");
-    document.getElementById("view-back").classList.toggle("active", state.side === "back");
-    muscleSvg.classList.toggle("gender-female", state.gender === "female");
-    muscleSvg.classList.toggle("gender-male", state.gender === "male");
+    body3d.setSide(state.side);
+    body3d.setGender(state.gender);
     sideLabel.textContent = state.side === "front" ? "Side (Front)" : "Side (Back)";
     genderLabel.textContent = state.gender === "female" ? "Gender (Female)" : "Gender (Male)";
     sideToggle.setAttribute("aria-pressed", state.side === "back");
     genderToggle.setAttribute("aria-pressed", state.gender === "male");
     partLabel.textContent = "Tap a highlighted body part";
+    partLabel.style.color = "var(--text-dark)";
+    renderLegend();
     closeSheet();
   }
 
@@ -78,14 +94,11 @@
     renderBody();
   });
 
-  muscleSvg.addEventListener("click", (e) => {
-    const target = e.target.closest(".muscle");
-    if (!target) return;
-    const part = target.dataset.part;
-    document.querySelectorAll(".muscle.selected").forEach((el) => el.classList.remove("selected"));
-    document.querySelectorAll(`.muscle[data-part="${part}"]`).forEach((el) => el.classList.add("selected"));
+  body3d.onPartTap((part, colorNum) => {
+    const hex = toHex(colorNum);
     partLabel.textContent = part.charAt(0).toUpperCase() + part.slice(1);
-    openSheet(part);
+    partLabel.style.color = hex;
+    openSheet(part, hex);
   });
 
   // ---- Bottom sheet ----
@@ -94,8 +107,9 @@
   const sheetTitle = document.getElementById("sheet-title");
   const sheetList = document.getElementById("sheet-list");
 
-  function openSheet(part) {
+  function openSheet(part, hex) {
     sheetTitle.textContent = part.charAt(0).toUpperCase() + part.slice(1);
+    sheetTitle.style.color = hex || "var(--text-dark)";
     sheetList.innerHTML = "";
     (window.EXERCISES[part] || []).forEach((ex) => {
       const li = document.createElement("li");
@@ -108,7 +122,7 @@
   function closeSheet() {
     sheet.classList.remove("open");
     sheetBackdrop.classList.remove("visible");
-    document.querySelectorAll(".muscle.selected").forEach((el) => el.classList.remove("selected"));
+    body3d.clearSelection();
   }
   sheetBackdrop.addEventListener("click", closeSheet);
 

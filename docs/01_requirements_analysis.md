@@ -76,24 +76,29 @@ Body Map Screen [Gender switch] → toggles Female ⇄ Male diagram
 - FR-2.3 No home/back button needed here — this is the root screen.
 
 ### FR-3 — Body Map Screen
-- FR-3.1 Display a flat 2D muscle-map diagram, default = **female, front view**.
+- FR-3.1 Display a **3D human body model**, default = **female, front view**.
 - FR-3.2 A **"Side" switch** (Front/Back) and a **"Gender" switch** (Female/Male)
   are shown below the diagram, each as a labeled toggle (label updates with the
   current state, e.g. "Side (Front)" / "Side (Back)"). Toggling either preserves
-  the other's state.
+  the other's state. Switching "Side" smoothly rotates the 3D model 180° — there
+  is **no drag-to-rotate gesture**; the toggle is the only way to flip the view.
 - FR-3.3 A home icon sits at the **top-left corner**; tapping it always navigates
   back to the Home Screen, regardless of current side/gender/selection state.
-- FR-3.4 Switching "Side" swaps between the front-view and back-view diagram, so
-  the user can see posterior muscle groups (back, triceps, hamstrings, glutes,
-  calves) as well as anterior ones (shoulders, chest, biceps, abs, quads).
+- FR-3.4 Switching "Side" rotates to reveal posterior muscle groups (back,
+  triceps, hamstrings, glutes, calves) as well as anterior ones (shoulders,
+  chest, biceps, abs, quads).
 - FR-3.5 Distinct tappable regions/hotspots exist for at least: **chest, back,
   shoulders, biceps, triceps, abs/core, quads, hamstrings, glutes, calves**.
-- FR-3.6 Tapping a body part:
-  - Highlights the selected region (visual feedback).
-  - Shows the part's name (e.g. "Hamstrings").
+- FR-3.6 **Each of the 10 parts has its own permanent, distinct color**, used
+  consistently for both the 3D highlight and the matching text label (e.g.
+  Quads = yellow shape + yellow "Quads" label text). A color legend for the
+  currently visible 5 parts (front or back) is shown below the model.
+- FR-3.7 Tapping a body part:
+  - Brightens/highlights the selected region using its assigned color.
+  - Shows the part's name in that same color (e.g. yellow "Quads").
   - Opens a suggestion panel (bottom sheet or modal) listing matching exercises
-    (see FR-4).
-- FR-3.7 Tapping outside any hotspot, or tapping the same part again, dismisses
+    (see FR-4), with the part name shown in its assigned color there too.
+- FR-3.8 Tapping outside any hotspot, or tapping the same part again, dismisses
   the highlight/suggestion panel.
 
 ### FR-4 — Exercise Suggestion
@@ -130,7 +135,7 @@ Body Map Screen [Gender switch] → toggles Female ⇄ Male diagram
 | ID | Requirement |
 |---|---|
 | NFR-1 | Cross-platform: single React Native codebase for Android + iOS. |
-| NFR-2 | Switching Side or Gender should feel instant (simple view swap, no heavy animation/loading). |
+| NFR-2 | Switching Gender should feel instant; switching Side animates as a smooth ~180° rotation tween (not an instant snap), target 60fps on mid-range devices. |
 | NFR-3 | App must work fully offline in v1 (all data bundled locally, no network calls). |
 | NFR-4 | Should be structured (navigation, data layer, components) so that v2 features (tracking, accounts, sync) can be added without a rewrite. |
 | NFR-5 | Basic accessibility: tappable hotspots should have a minimum touch target size (~44x44pt) even if the visual region is smaller. |
@@ -140,17 +145,35 @@ Body Map Screen [Gender switch] → toggles Female ⇄ Male diagram
 
 - No backend/server in v1 — everything is bundled static data.
 - No user accounts, no login.
-- Body diagram is a **flat 2D vector illustration** (front view + back view,
-  each as its own static image/SVG with tappable muscle regions), not a 3D
-  model — per your latest direction, matching a standard "muscle map" UI
-  pattern used by many fitness apps. Front ⇄ back is controlled by an explicit
-  toggle switch rather than a drag/rotate gesture.
-- Build stack in the real app: **react-native-svg** with tappable `<Path>`/
-  shape elements per muscle group (front and back illustrations as two SVGs
-  per gender, or one SVG with gendered overlays) — the React Native equivalent
-  of the prototype's `prototype/js/app.js` + inline SVG approach.
+- Body diagram is a **true 3D model**, per your final decision — built from
+  simple primitive shapes (LatheGeometry torso/hips for a smooth taper,
+  tapered cylinders for limbs), not a sculpted/scanned mesh, so no 3D artist
+  or external asset pipeline is needed. Front ⇄ back is controlled **only by
+  the toggle switch** (animated as a smooth rotation tween) — there is no
+  drag/rotate gesture, to keep the interaction simple and reliable.
+- Each of the 10 muscle groups has its own fixed color (see table below),
+  used for both the 3D highlight and the matching label text.
+- Build stack in the real app: **react-three-fiber + expo-gl** (the standard
+  React Native 3D rendering approach). The prototype validates this with
+  plain three.js in the browser — see `prototype/js/body3d.js`.
 - Target React Native tooling choice (Expo vs. bare RN CLI) is a build-phase
-  decision, to be confirmed with you before implementation starts.
+  decision, to be confirmed with you before implementation starts. Note: Expo
+  is the easier path for the `expo-gl`/`expo-three` 3D stack.
+
+### 7.1 Part Color Assignments
+
+| Part | Color | Hex |
+|---|---|---|
+| Shoulders | Orange | `#F4A261` |
+| Chest | Red | `#E63946` |
+| Biceps | Purple | `#8E44AD` |
+| Abs | Cyan | `#00B4D8` |
+| Quads | Yellow | `#FFD60A` |
+| Back | Teal-green | `#06D6A0` |
+| Triceps | Pink | `#F15BB5` |
+| Glutes | Brown | `#6D4C41` |
+| Hamstrings | Amber | `#FB8B24` |
+| Calves | Blue | `#118AB2` |
 
 ## 8. Out of Scope for v1 (Future Scope)
 

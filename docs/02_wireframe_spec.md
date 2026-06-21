@@ -64,25 +64,27 @@ Color tokens (from the logo, adjust freely):
 ```
 ┌─────────────────────────────┐
 │ [⌂]                           │   <- home, top-left
-│        Tap a highlighted      │   <- hint label, replaced by part name once selected
-│           body part           │
+│        Tap a highlighted      │   <- hint label, replaced by part name in its
+│           body part           │      own color once selected
 │                               │
-│        (flat 2D muscle        │
-│         map illustration,     │
-│         tappable regions,     │
-│         dark-gray muscles,    │
-│         accent when selected) │
+│        (3D human body         │
+│         model, each muscle     │
+│         group in its own       │
+│         color, rotates on      │
+│         Side toggle)           │
 │                               │
+│  Shoulders Chest Biceps        │  <- color-dot legend for current view's
+│  Abs       Quads               │     5 parts (front shown here)
 ├─────────────────────────────┤
 │   Side (Front)      Gender    │
 │      ⚪──            (Female) │
 │                       ⚪──     │
 └─────────────────────────────┘
 
-  -- when a part is tapped, bottom sheet rises: --
+  -- when a part is tapped, bottom sheet rises (title in that part's color): --
 
 ┌─────────────────────────────┐
-│  Hamstrings                  │
+│  Hamstrings  (amber text)     │
 │  ───────────────────────     │
 │  • Romanian Deadlift          │
 │  • Leg Curl                   │
@@ -91,16 +93,18 @@ Color tokens (from the logo, adjust freely):
 ```
 - Default state: female, front view.
 - Home icon: always returns to Home Screen.
-- **Side switch** (bottom-left): toggles Front ⇄ Back muscle-map illustration.
-- **Gender switch** (bottom-right): toggles Female ⇄ Male illustration.
-- Tap a region → highlight in accent color + bottom sheet with exercise list (FR-4).
-- Tap outside / swipe down on sheet → dismiss and clear highlight.
+- **Side switch** (bottom-left): rotates the 3D model 180° (smooth tween) to
+  flip between front and back. No drag gesture.
+- **Gender switch** (bottom-right): toggles Female ⇄ Male model proportions.
+- Tap a region → that part highlights in its assigned color, label + sheet
+  title render in the same color, + bottom sheet with exercise list (FR-4).
+- Tap outside / re-tap the same part → dismiss and clear highlight.
 
-### Hotspot map (front view)
-`head (non-tappable) · shoulders · chest · biceps · forearms · abs · quads`
+### Hotspot map (front view) — colors per §7.1 of the requirements doc
+`shoulders (orange) · chest (red) · biceps (purple) · abs (cyan) · quads (yellow)`
 
 ### Hotspot map (back view)
-`traps · back/lats · triceps · glutes · hamstrings · calves`
+`back (teal-green) · triceps (pink) · glutes (brown) · hamstrings (amber) · calves (blue)`
 
 ---
 
@@ -135,7 +139,8 @@ Color tokens (from the logo, adjust freely):
 
 - **Side / Gender switches**: standard labeled toggle switches (not icon
   buttons, not a drag gesture) — explicit and discoverable, label text updates
-  to reflect current state.
+  to reflect current state. Side additionally drives a smooth 180° rotation
+  tween on the 3D model.
 - **Body part tap**: hit-testing against named regions, minimum 44x44pt touch
   target even where the visual silhouette area is smaller (NFR-5).
 - **Bottom sheet**: dismissible by swipe-down, tap-outside, or re-tapping the

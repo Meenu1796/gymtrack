@@ -128,7 +128,7 @@ Body Map Screen [gender icon, top-right] → toggles male/female model
 | ID | Requirement |
 |---|---|
 | NFR-1 | Cross-platform: single React Native codebase for Android + iOS. |
-| NFR-2 | Body rotation animation should run smoothly (target 60fps on mid-range devices); if true 3D model rotation proves too heavy, fallback is a multi-frame sprite "flipbook" (front/¾/side/back images swapped on drag) — see Design doc for the tradeoff. |
+| NFR-2 | Body rotation is true 3D (continuous drag-to-orbit, not a swapped-image flipbook), target 60fps on mid-range devices. |
 | NFR-3 | App must work fully offline in v1 (all data bundled locally, no network calls). |
 | NFR-4 | Should be structured (navigation, data layer, components) so that v2 features (tracking, accounts, sync) can be added without a rewrite. |
 | NFR-5 | Basic accessibility: tappable hotspots should have a minimum touch target size (~44x44pt) even if the visual region is smaller. |
@@ -138,15 +138,21 @@ Body Map Screen [gender icon, top-right] → toggles male/female model
 
 - No backend/server in v1 — everything is bundled static data.
 - No user accounts, no login.
-- Body diagram art style: simple/flat illustration (not photorealistic), to keep
-  asset creation and hotspot mapping feasible without 3D modeling tools or a
-  human artist.
-- "Turn over" animation will be a 2D illustrated rotation effect (front ⇄ back,
-  possibly with side states), not a true 3D mesh — this keeps the app lightweight
-  and buildable without 3D asset pipelines. This is flagged as a decision point
-  for your review in the Design doc.
+- Body diagram is a **true 3D model**, per your decision — but built from simple
+  primitive shapes (spheres/cylinders composed into a low-poly humanoid), not a
+  photorealistic scanned/sculpted mesh. This avoids needing a 3D artist or an
+  external asset pipeline while still giving real continuous rotation (drag to
+  orbit, not a swapped front/back image).
+- Each muscle group is its own mesh (e.g. the upper arm is literally split into
+  a front-half "biceps" mesh and a back-half "triceps" mesh), so raycasting can
+  identify exactly which part was tapped at any rotation angle.
+- Build stack for the 3D model: **react-three-fiber + expo-gl** (the standard
+  React Native 3D rendering approach) in the actual app. The clickable prototype
+  uses plain three.js (browser) to validate the interaction before we touch
+  React Native — see `prototype/js/body3d.js`.
 - Target React Native tooling choice (Expo vs. bare RN CLI) is a build-phase
-  decision, to be confirmed with you before implementation starts.
+  decision, to be confirmed with you before implementation starts. Note: Expo
+  is the easier path for the `expo-gl`/`expo-three` 3D stack.
 
 ## 8. Out of Scope for v1 (Future Scope)
 
@@ -165,6 +171,7 @@ so these can be added later without restructuring the app.
 ## 9. Open Questions for You (please confirm before design is finalized)
 
 1. Confirm the muscle-group list in FR-3.5/FR-4.1 is complete — anything to add/remove (e.g. forearms, traps, obliques)?
-2. Confirm 2D illustrated rotation (front/back, flat style) is acceptable vs. wanting a heavier 3D model — this materially affects build complexity and timeline.
+2. ~~Confirm 2D vs 3D rotation~~ — **resolved: true 3D**, built from primitive shapes (see updated §7).
 3. Confirm exercise lists in FR-4.1 are good starting suggestions, or you have specific exercises you want per body part.
 4. Any color/branding direction for the logo (e.g. specific colors, mood — bold/energetic vs. clean/minimal)?
+5. Confirm Expo vs. bare React Native CLI for the build (Expo recommended — simplifies the 3D rendering setup).

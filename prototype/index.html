@@ -59,61 +59,7 @@
       </div>
 
       <div class="body-stage" id="body-stage">
-        <svg id="body-svg" viewBox="0 0 300 520" width="260" height="450">
-
-          <!-- FEMALE FRONT -->
-          <g class="bodyview" data-gender="female" data-view="front">
-            <circle cx="150" cy="50" r="26" fill="#FBD8C5"/>
-            <circle class="hot" data-part="shoulders" cx="108" cy="92" r="14" fill="#FFB199"/>
-            <circle class="hot" data-part="shoulders" cx="192" cy="92" r="14" fill="#FFB199"/>
-            <rect class="hot" data-part="chest" x="128" y="88" width="44" height="58" rx="14" fill="#FF8A65"/>
-            <rect class="hot" data-part="abs" x="132" y="146" width="36" height="46" rx="12" fill="#FFB199"/>
-            <rect class="hot" data-part="biceps" x="94" y="96" width="18" height="58" rx="9" fill="#FFCBB5"/>
-            <rect class="hot" data-part="biceps" x="188" y="96" width="18" height="58" rx="9" fill="#FFCBB5"/>
-            <rect class="hot" data-part="quads" x="126" y="192" width="22" height="100" rx="11" fill="#FF8A65"/>
-            <rect class="hot" data-part="quads" x="152" y="192" width="22" height="100" rx="11" fill="#FF8A65"/>
-          </g>
-
-          <!-- FEMALE BACK -->
-          <g class="bodyview" data-gender="female" data-view="back">
-            <circle cx="150" cy="50" r="26" fill="#FBD8C5"/>
-            <rect class="hot" data-part="back" x="126" y="86" width="48" height="64" rx="14" fill="#E5775A"/>
-            <rect class="hot" data-part="triceps" x="94" y="96" width="18" height="58" rx="9" fill="#FFB199"/>
-            <rect class="hot" data-part="triceps" x="188" y="96" width="18" height="58" rx="9" fill="#FFB199"/>
-            <rect class="hot" data-part="glutes" x="126" y="150" width="48" height="32" rx="14" fill="#E5775A"/>
-            <rect class="hot" data-part="hamstrings" x="126" y="182" width="22" height="70" rx="11" fill="#FF8A65"/>
-            <rect class="hot" data-part="hamstrings" x="152" y="182" width="22" height="70" rx="11" fill="#FF8A65"/>
-            <rect class="hot" data-part="calves" x="126" y="252" width="22" height="48" rx="10" fill="#FFB199"/>
-            <rect class="hot" data-part="calves" x="152" y="252" width="22" height="48" rx="10" fill="#FFB199"/>
-          </g>
-
-          <!-- MALE FRONT -->
-          <g class="bodyview" data-gender="male" data-view="front">
-            <circle cx="150" cy="48" r="27" fill="#D7C2A8"/>
-            <circle class="hot" data-part="shoulders" cx="100" cy="92" r="16" fill="#C99B6A"/>
-            <circle class="hot" data-part="shoulders" cx="200" cy="92" r="16" fill="#C99B6A"/>
-            <rect class="hot" data-part="chest" x="122" y="86" width="56" height="58" rx="10" fill="#B97B4B"/>
-            <rect class="hot" data-part="abs" x="130" y="144" width="40" height="46" rx="8" fill="#D7AE82"/>
-            <rect class="hot" data-part="biceps" x="86" y="98" width="20" height="60" rx="9" fill="#D7AE82"/>
-            <rect class="hot" data-part="biceps" x="194" y="98" width="20" height="60" rx="9" fill="#D7AE82"/>
-            <rect class="hot" data-part="quads" x="124" y="190" width="24" height="102" rx="9" fill="#B97B4B"/>
-            <rect class="hot" data-part="quads" x="152" y="190" width="24" height="102" rx="9" fill="#B97B4B"/>
-          </g>
-
-          <!-- MALE BACK -->
-          <g class="bodyview" data-gender="male" data-view="back">
-            <circle cx="150" cy="48" r="27" fill="#D7C2A8"/>
-            <rect class="hot" data-part="back" x="118" y="84" width="64" height="66" rx="10" fill="#9C6A3F"/>
-            <rect class="hot" data-part="triceps" x="86" y="98" width="20" height="60" rx="9" fill="#C99B6A"/>
-            <rect class="hot" data-part="triceps" x="194" y="98" width="20" height="60" rx="9" fill="#C99B6A"/>
-            <rect class="hot" data-part="glutes" x="120" y="150" width="60" height="34" rx="12" fill="#9C6A3F"/>
-            <rect class="hot" data-part="hamstrings" x="124" y="184" width="24" height="72" rx="9" fill="#B97B4B"/>
-            <rect class="hot" data-part="hamstrings" x="152" y="184" width="24" height="72" rx="9" fill="#B97B4B"/>
-            <rect class="hot" data-part="calves" x="124" y="256" width="24" height="48" rx="9" fill="#C99B6A"/>
-            <rect class="hot" data-part="calves" x="152" y="256" width="24" height="48" rx="9" fill="#C99B6A"/>
-          </g>
-
-        </svg>
+        <canvas id="body-canvas" width="260" height="420"></canvas>
       </div>
 
       <div class="rotate-hint">◄ drag to rotate ►</div>
@@ -152,7 +98,9 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="data/exercises.js"></script>
+<script src="js/body3d.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

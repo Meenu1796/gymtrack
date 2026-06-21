@@ -47,51 +47,21 @@
     showScreen("screen-plans");
   });
 
-  // ---- Body Map: gender toggle + rotate + hotspots ----
-  const state = { gender: "female", view: "front" };
-  const stage = document.getElementById("body-stage");
+  // ---- Body Map: 3D model, gender toggle + drag-rotate + tap-to-pick ----
+  const state = { gender: "female" };
   const partLabel = document.getElementById("part-label");
+  const body3d = window.initBody3D(document.getElementById("body-canvas"));
 
-  function renderBody() {
-    document.querySelectorAll(".bodyview").forEach((g) => {
-      const active = g.dataset.gender === state.gender && g.dataset.view === state.view;
-      g.classList.toggle("active", active);
-    });
-    closeSheet();
-    partLabel.textContent = "Tap a highlighted body part";
-  }
+  body3d.onPartTap((part) => {
+    partLabel.textContent = part.charAt(0).toUpperCase() + part.slice(1);
+    openSheet(part);
+  });
 
   document.getElementById("btn-gender").addEventListener("click", () => {
     state.gender = state.gender === "female" ? "male" : "female";
-    renderBody();
-  });
-
-  // Drag-to-rotate (front <-> back)
-  let dragStartX = null;
-  stage.addEventListener("pointerdown", (e) => {
-    dragStartX = e.clientX;
-    stage.style.cursor = "grabbing";
-  });
-  window.addEventListener("pointerup", (e) => {
-    if (dragStartX === null) return;
-    const dx = e.clientX - dragStartX;
-    if (Math.abs(dx) > 40) {
-      state.view = dx < 0 ? "back" : "front";
-      renderBody();
-    }
-    dragStartX = null;
-    stage.style.cursor = "grab";
-  });
-
-  // Hotspot taps (event delegation, works across all 4 body groups)
-  document.getElementById("body-svg").addEventListener("click", (e) => {
-    const hot = e.target.closest(".hot");
-    if (!hot) return;
-    const part = hot.dataset.part;
-    document.querySelectorAll(".hot.selected").forEach((el) => el.classList.remove("selected"));
-    hot.classList.add("selected");
-    partLabel.textContent = part.charAt(0).toUpperCase() + part.slice(1);
-    openSheet(part);
+    body3d.setGender(state.gender);
+    partLabel.textContent = "Tap a highlighted body part";
+    closeSheet();
   });
 
   // ---- Bottom sheet ----

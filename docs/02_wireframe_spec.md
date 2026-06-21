@@ -89,8 +89,8 @@ Color tokens (from the logo, adjust freely):
 - Default state: female, front view.
 - Home icon: always returns to Home Screen.
 - Gender toggle: swaps model, keeps current rotation angle.
-- Drag horizontally on the body to rotate front ⇄ back (and intermediate
-  states if using the sprite-flipbook approach from NFR-2).
+- Drag horizontally on the body to orbit it in true 3D (continuous rotation,
+  not a swapped front/back image — see NFR-2).
 - Tap a region → highlight + bottom sheet with exercise list (FR-4).
 - Tap outside / swipe down on sheet → dismiss.
 
@@ -131,9 +131,9 @@ Color tokens (from the logo, adjust freely):
 
 ## Interaction Notes
 
-- **Rotation gesture**: horizontal pan/drag on the body image. Released drag
-  snaps to nearest defined view (front / back, or front/¾/back if we add
-  intermediate frames).
+- **Rotation gesture**: horizontal pan/drag orbits the 3D model continuously
+  around its vertical axis, with momentum (coasts and decelerates on release,
+  rather than snapping between fixed views).
 - **Gender toggle**: single tap icon button, instant swap (with a quick
   crossfade), not a drag gesture — avoids accidental switches.
 - **Body part tap**: hit-testing against named regions, minimum 44x44pt touch

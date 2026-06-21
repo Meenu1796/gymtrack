@@ -1,11 +1,17 @@
 // Builds a low-poly primitive 3D body (no external model assets/3D pipeline —
-// just spheres/cylinders, per the "buildable without a 3D artist" constraint)
-// rendered in a "hologram scan" style (dark background, glowing cyan wireframe)
-// and handles drag-to-rotate + tap-to-pick body parts via raycasting.
+// still just procedural geometry, per the "buildable without a 3D artist"
+// constraint) rendered in a "hologram scan" style (dark background, glowing
+// cyan wireframe), and handles drag-to-rotate + tap-to-pick body parts via
+// raycasting.
 //
-// Front/back split per limb-or-torso segment is done by cutting each cylinder
-// in half around its Y axis: theta in [0, PI] faces +Z (front), [PI, 2*PI]
-// faces -Z (back), since the camera sits on +Z looking toward the origin.
+// Unlike a stack of flat cylinders ("bricks"), the torso/hips are built from
+// LatheGeometry profiles (a curve revolved around the Y axis) so they taper
+// smoothly shoulder->chest->waist->hip, and limbs use cylinders with different
+// top/bottom radii so they narrow toward elbows/knees/ankles like real limbs.
+//
+// Front/back split for any segment is done by only revolving/sweeping half
+// the circle: angle [0, PI] faces +Z (front), [PI, 2*PI] faces -Z (back),
+// since the camera sits on +Z looking toward the origin.
 window.initBody3D = function initBody3D(canvas) {
   const W = canvas.width, H = canvas.height;
 
@@ -19,15 +25,15 @@ window.initBody3D = function initBody3D(canvas) {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0a0e27);
 
-  const camera = new THREE.PerspectiveCamera(32, W / H, 0.1, 50);
-  camera.position.set(0, 1.05, 5.2);
-  camera.lookAt(0, 1.0, 0);
+  const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 50);
+  camera.position.set(0, 1.05, 6.2);
+  camera.lookAt(0, 1.05, 0);
 
   const rig = new THREE.Group();
   scene.add(rig);
 
-  const FRONT = { thetaStart: 0, thetaLength: Math.PI };
-  const BACK = { thetaStart: Math.PI, thetaLength: Math.PI };
+  const FRONT = { start: 0, length: Math.PI };
+  const BACK = { start: Math.PI, length: Math.PI };
 
   // Each part is a small Group: a near-invisible solid "fill" mesh (keeps the
   // silhouette readable and gives the raycaster a real hit target) plus a
@@ -35,10 +41,10 @@ window.initBody3D = function initBody3D(canvas) {
   function holoPart(geometry, part) {
     const group = new THREE.Group();
     const fillMat = new THREE.MeshBasicMaterial({
-      color: HOLO_COLOR, transparent: true, opacity: 0.08, depthWrite: false,
+      color: HOLO_COLOR, transparent: true, opacity: 0.08, depthWrite: false, side: THREE.DoubleSide,
     });
     const wireMat = new THREE.MeshBasicMaterial({
-      color: HOLO_COLOR, wireframe: true, transparent: true, opacity: 0.85,
+      color: HOLO_COLOR, wireframe: true, transparent: true, opacity: 0.85, side: THREE.DoubleSide,
     });
     group.add(new THREE.Mesh(geometry, fillMat));
     group.add(new THREE.Mesh(geometry, wireMat));
@@ -47,87 +53,114 @@ window.initBody3D = function initBody3D(canvas) {
     if (part) group.userData.part = part;
     return group;
   }
-  function halfCylinder(radius, height, half, part) {
-    const geo = new THREE.CylinderGeometry(radius, radius, height, 20, 1, false, half.thetaStart, half.thetaLength);
+
+  // Tapered cylinder for limbs (different top/bottom radius = narrows toward
+  // the joint, instead of a uniform "brick" tube).
+  function limb(topR, bottomR, height, centerY, half, part) {
+    const geo = new THREE.CylinderGeometry(topR, bottomR, height, 16, 1, false, half.start, half.length);
+    const part3d = holoPart(geo, part);
+    part3d.position.y = centerY;
+    return part3d;
+  }
+
+  // Smooth torso/hip segment: profile is an array of [radius, absoluteY]
+  // pairs, revolved around Y. Sharing an identical boundary point between
+  // adjacent segments (e.g. waist) keeps the silhouette continuous.
+  function lathe(profile, half, part) {
+    const pts = profile.map((p) => new THREE.Vector2(p[0], p[1]));
+    const geo = new THREE.LatheGeometry(pts, 20, half.start, half.length);
     return holoPart(geo, part);
   }
-  function fullCylinder(radius, height, part) {
-    const geo = new THREE.CylinderGeometry(radius, radius, height, 20);
-    return holoPart(geo, part);
-  }
-  function sphere(radius, part) {
+
+  function sphere(radius, centerY, part) {
     const geo = new THREE.SphereGeometry(radius, 20, 16);
-    return holoPart(geo, part);
+    const part3d = holoPart(geo, part);
+    part3d.position.y = centerY;
+    return part3d;
   }
 
   const CONFIG = {
     female: {
-      shoulderX: 0.30, torsoUpperR: 0.30, torsoLowerR: 0.22,
-      armR: 0.10, thighR: 0.18, calfR: 0.12,
+      headR: 0.25,
+      shoulderR: 0.27, chestR: 0.30, waistR: 0.19, hipR: 0.33, hipBottomR: 0.23,
+      armTopR: 0.10, armBottomR: 0.08, forearmTopR: 0.08, forearmBottomR: 0.06,
+      thighX: 0.12, thighTopR: 0.17, thighBottomR: 0.12,
+      calfTopR: 0.12, calfBottomR: 0.075,
     },
     male: {
-      shoulderX: 0.40, torsoUpperR: 0.34, torsoLowerR: 0.30,
-      armR: 0.12, thighR: 0.20, calfR: 0.13,
+      headR: 0.26,
+      shoulderR: 0.37, chestR: 0.39, waistR: 0.30, hipR: 0.32, hipBottomR: 0.25,
+      armTopR: 0.135, armBottomR: 0.10, forearmTopR: 0.10, forearmBottomR: 0.075,
+      thighX: 0.135, thighTopR: 0.19, thighBottomR: 0.135,
+      calfTopR: 0.135, calfBottomR: 0.085,
     },
   };
 
   function buildBody(cfg) {
     const g = new THREE.Group();
 
-    const head = sphere(0.27, null);
-    head.position.y = 2.0;
+    const head = sphere(cfg.headR, 1.93, null);
+    head.scale.set(1, 1.12, 1);
     g.add(head);
 
-    const neck = fullCylinder(0.11, 0.14, null);
-    neck.position.y = 1.75;
+    const neck = limb(0.14, cfg.shoulderR * 0.55, 0.18, 1.66, { start: 0, length: Math.PI * 2 }, null);
     g.add(neck);
 
+    // Torso: upper (shoulder -> chest -> waist) tagged chest/back,
+    // lower (waist -> hip -> hip-bottom) tagged abs/glutes. They share the
+    // waist radius/height exactly so there's no gap or seam between them.
+    const upperProfile = [
+      [cfg.shoulderR, 1.58],
+      [cfg.chestR, 1.34],
+      [cfg.waistR, 1.06],
+    ];
+    const lowerProfile = [
+      [cfg.waistR, 1.06],
+      [cfg.hipR, 0.88],
+      [cfg.hipBottomR, 0.64],
+    ];
+    const chest = lathe(upperProfile, FRONT, "chest");
+    g.add(chest);
+    const back = lathe(upperProfile, BACK, "back");
+    g.add(back);
+    const abs = lathe(lowerProfile, FRONT, "abs");
+    g.add(abs);
+    const glutes = lathe(lowerProfile, BACK, "glutes");
+    g.add(glutes);
+
     [-1, 1].forEach((side) => {
-      const shoulder = sphere(0.15, "shoulders");
-      shoulder.position.set(side * cfg.shoulderX, 1.55, 0);
+      const armX = side * (cfg.shoulderR + cfg.armTopR * 0.2);
+
+      const shoulder = sphere(cfg.armTopR * 1.2, 1.56, "shoulders");
+      shoulder.position.x = armX;
       g.add(shoulder);
 
-      const biceps = halfCylinder(cfg.armR, 0.55, FRONT, "biceps");
-      biceps.position.set(side * (cfg.shoulderX + 0.02), 1.27, 0);
+      const biceps = limb(cfg.armTopR, cfg.armBottomR, 0.52, 1.30, FRONT, "biceps");
+      biceps.position.x = armX;
       g.add(biceps);
 
-      const triceps = halfCylinder(cfg.armR, 0.55, BACK, "triceps");
-      triceps.position.copy(biceps.position);
+      const triceps = limb(cfg.armTopR, cfg.armBottomR, 0.52, 1.30, BACK, "triceps");
+      triceps.position.x = armX;
       g.add(triceps);
 
-      const forearm = fullCylinder(cfg.armR * 0.85, 0.5, null);
-      forearm.position.set(side * (cfg.shoulderX + 0.02), 0.74, 0);
+      const forearm = limb(cfg.forearmTopR, cfg.forearmBottomR, 0.46, 0.81, { start: 0, length: Math.PI * 2 }, null);
+      forearm.position.x = armX;
       g.add(forearm);
 
-      const thighX = 0.14;
-      const quads = halfCylinder(cfg.thighR, 0.62, FRONT, "quads");
-      quads.position.set(side * thighX, 0.28, 0);
+      const legX = side * cfg.thighX;
+
+      const quads = limb(cfg.thighTopR, cfg.thighBottomR, 0.58, 0.36, FRONT, "quads");
+      quads.position.x = legX;
       g.add(quads);
 
-      const hamstrings = halfCylinder(cfg.thighR, 0.62, BACK, "hamstrings");
-      hamstrings.position.copy(quads.position);
+      const hamstrings = limb(cfg.thighTopR, cfg.thighBottomR, 0.58, 0.36, BACK, "hamstrings");
+      hamstrings.position.x = legX;
       g.add(hamstrings);
 
-      const calf = fullCylinder(cfg.calfR, 0.56, "calves");
-      calf.position.set(side * thighX, -0.30, 0);
+      const calf = limb(cfg.calfTopR, cfg.calfBottomR, 0.5, -0.14, { start: 0, length: Math.PI * 2 }, "calves");
+      calf.position.x = legX;
       g.add(calf);
     });
-
-    const chest = halfCylinder(cfg.torsoUpperR, 0.5, FRONT, "chest");
-    chest.position.y = 1.27;
-    g.add(chest);
-
-    const back = halfCylinder(cfg.torsoUpperR, 0.5, BACK, "back");
-    back.position.y = 1.27;
-    g.add(back);
-
-    const abs = halfCylinder(cfg.torsoLowerR, 0.4, FRONT, "abs");
-    abs.position.y = 0.82;
-    g.add(abs);
-
-    const glutes = halfCylinder(cfg.torsoLowerR, 0.4, BACK, "glutes");
-    glutes.position.y = 0.82;
-    g.add(glutes);
 
     return g;
   }

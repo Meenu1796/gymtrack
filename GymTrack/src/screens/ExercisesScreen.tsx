@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  View, Text, FlatList, StyleSheet,
-  SafeAreaView, StatusBar, TouchableOpacity,
-} from 'react-native';
+import { View, Text, FlatList, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import ExerciseCard from '../components/ui/ExerciseCard';
 import { getMuscleById } from '../data/muscleGroups';
@@ -19,22 +17,22 @@ export default function ExercisesScreen({ route, navigation }: Props) {
 
   if (!muscle) {
     return (
-      <View style={styles.error}>
-        <Text style={{ color: Colors.muted }}>Muscle group not found.</Text>
-      </View>
+      <SafeAreaView style={styles.safe}>
+        <Text style={{ color: Colors.muted, textAlign: 'center', marginTop: 40 }}>Muscle group not found.</Text>
+      </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top','left','right']}>
       <StatusBar barStyle="light-content" backgroundColor={Colors.bg} />
 
-      {/* Top bar */}
+      {/* Top bar with back button */}
       <View style={styles.topBar}>
         <TouchableOpacity
           style={styles.backBtn}
           onPress={() => navigation.goBack()}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+          hitSlop={{ top:8, bottom:8, left:8, right:8 }}>
           <Text style={styles.backText}>←</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Exercises</Text>
@@ -50,21 +48,10 @@ export default function ExercisesScreen({ route, navigation }: Props) {
         </View>
       </View>
 
-      {/* Exercise list */}
       <FlatList
         data={exercises}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <ExerciseCard
-            exercise={item}
-            accentColor={muscle.color}
-          />
-        )}
-        ListEmptyComponent={
-          <View style={styles.empty}>
-            <Text style={styles.emptyText}>No exercises found for this muscle group.</Text>
-          </View>
-        }
+        renderItem={({ item }) => <ExerciseCard exercise={item} accentColor={muscle.color} />}
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
       />
@@ -73,82 +60,27 @@ export default function ExercisesScreen({ route, navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: Colors.bg,
-  },
-  error: {
-    flex: 1,
-    backgroundColor: Colors.bg,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  safe: { flex: 1, backgroundColor: Colors.bg },
   topBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-    backgroundColor: Colors.surface,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingVertical: 10,
+    borderBottomWidth: 1, borderBottomColor: Colors.border, backgroundColor: Colors.surface,
   },
   backBtn: {
-    width: 36,
-    height: 36,
-    backgroundColor: Colors.surface2,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: Colors.border,
+    width: 36, height: 36, backgroundColor: Colors.surface2, borderRadius: 10,
+    alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: Colors.border,
   },
-  backText: {
-    color: Colors.text,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  title: {
-    color: Colors.text,
-    fontSize: 16,
-    fontWeight: '800',
-  },
+  backText: { color: Colors.text, fontSize: 18, fontWeight: '600' },
+  title: { color: Colors.text, fontSize: 16, fontWeight: '800' },
   muscleHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    margin: 16,
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    margin: 16, padding: 16, borderRadius: 12, borderWidth: 1,
   },
   colorDot: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 6,
-    elevation: 4,
+    width: 14, height: 14, borderRadius: 7,
+    shadowOffset: { width:0, height:0 }, shadowOpacity: 0.8, shadowRadius: 6, elevation: 4,
   },
-  muscleName: {
-    fontSize: 18,
-    fontWeight: '800',
-  },
-  muscleCount: {
-    color: Colors.muted,
-    fontSize: 12,
-    marginTop: 2,
-  },
-  list: {
-    paddingBottom: 30,
-  },
-  empty: {
-    padding: 40,
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: Colors.muted,
-    fontSize: 13,
-  },
+  muscleName: { fontSize: 18, fontWeight: '800' },
+  muscleCount: { color: Colors.muted, fontSize: 12, marginTop: 2 },
+  list: { paddingBottom: 30 },
 });

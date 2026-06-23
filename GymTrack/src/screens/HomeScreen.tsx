@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }: Props) {
           </View>
           <View>
             <Text style={styles.greeting}>Ready to train? 💪</Text>
-            <Text style={styles.appTitle}>GymTrack</Text>
+            <Text style={styles.appTitle}>GymBelt</Text>
           </View>
         </View>
 
@@ -80,7 +80,7 @@ export default function HomeScreen({ navigation }: Props) {
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>GymTrack v1.0 · by Rubyx</Text>
+          <Text style={styles.footerText}>GymBelt v1.0 · by Rubyx</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
